@@ -15,8 +15,9 @@ BottomNavigationBar buildBottomNav(int index, {ValueChanged<int> onNavTab}) {
 
 const widgetTabs = [
   Tab(text: 'Container'),
-  Tab(text: 'CrossFade'),
-  Tab(text: 'Text'),
+  Tab(text: 'Positioned'),
   Tab(text: 'Align'),
+  Tab(text: 'Text'),
   Tab(text: 'Opacity'),
+  Tab(text: 'CrossFade'),
 ];

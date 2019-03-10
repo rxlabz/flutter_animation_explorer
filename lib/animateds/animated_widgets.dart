@@ -4,6 +4,7 @@ import 'animated_align_example.dart';
 import 'animated_container_example.dart';
 import 'animated_crossfade_example.dart';
 import 'animated_opacity_example.dart';
+import 'animated_positioned_example.dart';
 import 'animated_textstyle_example.dart';
 
 class AnimatedWidgetsScreen extends StatelessWidget {
@@ -17,10 +18,11 @@ class AnimatedWidgetsScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return TabBarView(controller: tabController, children: [
       AnimatedContainerExample(controller: notifier),
-      AnimatedCrossFadeExample(controller: notifier),
-      AnimatedTextExample(controller: notifier),
+      AnimatedPositionedExample(controller: notifier),
       AnimatedAlignExample(controller: notifier),
+      AnimatedTextExample(controller: notifier),
       AnimatedOpacityExample(controller: notifier),
+      AnimatedCrossFadeExample(controller: notifier),
     ]);
   }
 }
