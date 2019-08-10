@@ -80,7 +80,7 @@ class _AnimatedAlignExampleState extends State<AnimatedAlignExample>
                     child: Center(
                         child: Text(
                       'Animated Align : '
-                          '${_currentAlign.toString().split('.').last}',
+                      '${_currentAlign.toString().split('.').last}',
                       textAlign: TextAlign.center,
                       style: TextStyle(
                         color: Colors.white,

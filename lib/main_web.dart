@@ -31,8 +31,7 @@ class NavItem {
 
 const navItems = [
   NavItem('Curves', Icons.timeline),
-  NavItem('Animated widgets', Icons.settings_overscan),
-  NavItem('Hero', Icons.settings_overscan)
+  NavItem('Animated widgets', Icons.settings_overscan)
 ];
 
 class _MainScreenState extends State<MainScreen>

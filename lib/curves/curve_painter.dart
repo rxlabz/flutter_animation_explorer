@@ -31,6 +31,14 @@ class CurvePainter extends CustomPainter {
   }
 
   void _drawCurve(Canvas canvas, List<double> points, Size size) {
+    enumerate(points)
+        .map((y) => Offset(
+              y.index / divisions * size.width,
+              y.value * size.height,
+            ))
+        .forEach((p) => canvas.drawCircle(p, 1, ptPaint));
+
+    /* FIXME when flutter web implements canvas.drawPoints
     canvas.drawPoints(
       PointMode.polygon,
       enumerate(points)
@@ -40,7 +48,7 @@ class CurvePainter extends CustomPainter {
               ))
           .toList(),
       ptPaint,
-    );
+    );*/
   }
 
   void _drawAxis(Canvas canvas, Size size) {

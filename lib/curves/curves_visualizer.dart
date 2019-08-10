@@ -25,7 +25,7 @@ class _AnimGraphrState extends State<AnimGraphr>
     with SingleTickerProviderStateMixin {
   Curve _currentCurve = curves.first.curve;
 
-  CurvedAnimation anim;
+  CurvedAnimation _curvedAnimation;
 
   int _duration = 1000;
 
@@ -56,7 +56,8 @@ class _AnimGraphrState extends State<AnimGraphr>
   @override
   Widget build(BuildContext context) {
     controller.duration = aMillisecond * _duration;
-    anim = CurvedAnimation(parent: controller, curve: _currentCurve);
+    _curvedAnimation =
+        CurvedAnimation(parent: controller, curve: _currentCurve);
 
     return AnimatedBuilder(
       animation: controller,
@@ -86,7 +87,7 @@ class _AnimGraphrState extends State<AnimGraphr>
                 constraints: BoxConstraints.expand(height: 150),
                 child: CustomPaint(
                     key: Key('curveGraph'),
-                    painter: CurvePainter(controller, anim)),
+                    painter: CurvePainter(controller, _curvedAnimation)),
               ),
               Padding(
                 padding: const EdgeInsets.all(8.0),
@@ -116,7 +117,7 @@ class _AnimGraphrState extends State<AnimGraphr>
                 ),
               ),
               AnimationExample(
-                value: anim.value,
+                value: _curvedAnimation.value,
                 animatedSize: _animatedSize,
                 animatedOpacity: _animatedOpacity,
                 animatedPosition: _animatedPosition,
