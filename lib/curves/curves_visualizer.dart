@@ -62,68 +62,67 @@ class _AnimGraphrState extends State<AnimGraphr>
     return AnimatedBuilder(
       animation: controller,
       builder: (context, widget) => Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: <Widget>[
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Row(
-                  children: <Widget>[
-                    CurvesMenu(
-                      currentCurve: _currentCurve,
-                      onCurveChanged: _onCurveChanged,
-                    ),
-                    DurationControl(
-                      duration: _duration,
-                      onDurationChange: (value) => _duration > 100
-                          ? setState(() => _duration += value)
-                          : null,
-                    ),
-                  ],
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: <Widget>[
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Row(
+              children: <Widget>[
+                Expanded(
+                  child: CurvesThumbMenu(
+                    currentCurve: _currentCurve,
+                    onCurveChanged: _onCurveChanged,
+                    animController: controller,
+                  ),
                 ),
-              ),
-              Container(
-                color: Colors.grey.shade200,
-                padding: const EdgeInsets.all(12),
-                constraints: BoxConstraints.expand(height: 150),
-                child: CustomPaint(
-                    key: Key('curveGraph'),
-                    painter: CurvePainter(controller, _curvedAnimation)),
-              ),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Row(
-                  children: <Widget>[
-                    Expanded(
-                        child: Text(
-                      'Animate',
-                      style: labelStyle,
-                    )),
-                    Checkbox(
-                        value: _animatedSize,
-                        onChanged: (value) =>
-                            setState(() => _animatedSize = value)),
-                    Text('Size'),
-                    Checkbox(
-                        value: _animatedOpacity,
-                        onChanged: (value) =>
-                            setState(() => _animatedOpacity = value)),
-                    Text('Opacity'),
-                    Checkbox(
-                        value: _animatedPosition,
-                        onChanged: (value) =>
-                            setState(() => _animatedPosition = value)),
-                    Text('Position'),
-                  ],
+                DurationControl(
+                  duration: _duration,
+                  onDurationChange: (value) => _duration > 100
+                      ? setState(() => _duration += value)
+                      : null,
                 ),
-              ),
-              AnimationExample(
-                value: _curvedAnimation.value,
-                animatedSize: _animatedSize,
-                animatedOpacity: _animatedOpacity,
-                animatedPosition: _animatedPosition,
-              ),
-            ],
+              ],
+            ),
           ),
+          Container(
+            color: Colors.grey.shade200,
+            padding: const EdgeInsets.all(12),
+            constraints: BoxConstraints.expand(height: 150),
+            child: CustomPaint(
+                key: Key('curveGraph'),
+                painter: CurvePainter(controller, _curvedAnimation)),
+          ),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Row(
+              children: <Widget>[
+                Expanded(child: Text('Animate', style: labelStyle)),
+                Checkbox(
+                    value: _animatedSize,
+                    onChanged: (value) =>
+                        setState(() => _animatedSize = value)),
+                Text('Size'),
+                Checkbox(
+                    value: _animatedOpacity,
+                    onChanged: (value) =>
+                        setState(() => _animatedOpacity = value)),
+                Text('Opacity'),
+                Checkbox(
+                    value: _animatedPosition,
+                    onChanged: (value) =>
+                        setState(() => _animatedPosition = value)),
+                Text('Position'),
+              ],
+            ),
+          ),
+          AnimationExample(
+            value: _curvedAnimation.value,
+            animatedSize: _animatedSize,
+            animatedOpacity: _animatedOpacity,
+            animatedPosition: _animatedPosition,
+          ),
+        ],
+      ),
     );
   }
 

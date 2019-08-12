@@ -63,7 +63,7 @@ class _AnimatedCrossFadeExampleState extends State<AnimatedCrossFadeExample>
                         currentCurve: _firstCurve,
                         onCurveChanged: (curve) =>
                             setState(() => _firstCurve = curve),
-                        animationController: animationController,
+                        animController: animationController,
                       ),
                     ),
                   ],
@@ -79,7 +79,7 @@ class _AnimatedCrossFadeExampleState extends State<AnimatedCrossFadeExample>
                         currentCurve: _secondCurve,
                         onCurveChanged: (curve) =>
                             setState(() => _secondCurve = curve),
-                        animationController: animationController,
+                        animController: animationController,
                       ),
                     ),
                   ],

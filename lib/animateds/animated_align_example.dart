@@ -59,7 +59,7 @@ class _AnimatedAlignExampleState extends State<AnimatedAlignExample>
           CurvesThumbMenu(
             currentCurve: _currentCurve,
             onCurveChanged: (curve) => setState(() => _currentCurve = curve),
-            animationController: animationController,
+            animController: animationController,
           ),
           DurationControl(
             duration: _duration,

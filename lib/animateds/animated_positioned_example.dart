@@ -57,7 +57,7 @@ class _AnimatedPositionedExampleState extends State<AnimatedPositionedExample>
           CurvesThumbMenu(
             currentCurve: _currentCurve,
             onCurveChanged: (curve) => setState(() => _currentCurve = curve),
-            animationController: animationController,
+            animController: animationController,
           ),
           DurationControl(
             duration: _duration,
@@ -78,7 +78,7 @@ class _AnimatedPositionedExampleState extends State<AnimatedPositionedExample>
                     child: Center(
                         child: Text(
                       'AnimatedPositioned : '
-                          '$_currentPosition',
+                      '$_currentPosition',
                       textAlign: TextAlign.center,
                       style: TextStyle(
                         color: Colors.white,

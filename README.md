@@ -1,6 +1,6 @@
-# Flutter animation explorer
+# Flutter animation curves explorer
 
-[Web demo](https://t.co/sVq1mL3jg9?amp=1)
+[Try it online](https://t.co/sVq1mL3jg9?amp=1)
 
 ![curves](assets/curves.gif)
 

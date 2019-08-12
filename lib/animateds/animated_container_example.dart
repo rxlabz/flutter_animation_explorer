@@ -51,7 +51,7 @@ class _AnimatedContainerExampleState extends State<AnimatedContainerExample>
           CurvesThumbMenu(
             currentCurve: _currentCurve,
             onCurveChanged: (curve) => setState(() => _currentCurve = curve),
-            animationController: animationController,
+            animController: animationController,
           ),
           DurationControl(
             duration: _duration,

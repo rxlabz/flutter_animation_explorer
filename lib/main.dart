@@ -7,33 +7,26 @@ import 'nav.dart';
 
 /// https://docs.flutter.io/flutter/widgets/ImplicitlyAnimatedWidget-class.html
 ///
-/// AnimatedAlign AnimatedContainer AnimatedDefaultTextStyle
-/// AnimatedOpacity AnimatedPadding AnimatedPhysicalModel
-/// AnimatedPositioned AnimatedPositionedDirectional AnimatedTheme
+/// - [x] AnimatedAlign
+/// - [x] AnimatedContainer
+/// - [x] AnimatedDefaultTextStyle
+/// - [x] AnimatedOpacity
+/// - [x] AnimatedPadding
+/// - [x] AnimatedPositioned
+/// - [ ] AnimatedPositionedDirectional
 ///
 ///
 void main() => runApp(MaterialApp(
     theme: ThemeData.light().copyWith(
-        primaryColor: Colors.cyan, toggleableActiveColor: Colors.cyan),
+      primaryColor: Colors.cyan,
+      toggleableActiveColor: Colors.cyan,
+    ),
     home: MainScreen()));
 
 class MainScreen extends StatefulWidget {
   @override
   _MainScreenState createState() => _MainScreenState();
 }
-
-class NavItem {
-  final String label;
-  final IconData icon;
-
-  const NavItem(this.label, this.icon);
-}
-
-const navItems = [
-  NavItem('Curves', Icons.timeline),
-  NavItem('Animated widgets', Icons.settings_overscan),
-  NavItem('Hero', Icons.settings_overscan)
-];
 
 class _MainScreenState extends State<MainScreen>
     with TickerProviderStateMixin, ChangeNotifier {
@@ -92,13 +85,13 @@ class _MainScreenState extends State<MainScreen>
 
   _buildBody() {
     switch (_navIndex) {
-      case 0:
-        return AnimGraphr(animationController: animController);
       case 1:
         return AnimatedWidgetsScreen(
-            tabController: _widgetTabsController, notifier: this);
-      /*case 2:
-        return HeroScreen(tabController: _widgetTabsController, notifier: this);*/
+          tabController: _widgetTabsController,
+          notifier: this,
+        );
+      default:
+        return AnimGraphr(animationController: animController);
     }
   }
 

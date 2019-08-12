@@ -28,14 +28,14 @@ class CurvesMenu extends StatelessWidget {
 class CurvesThumbMenu extends StatelessWidget {
   final Curve currentCurve;
   final ValueChanged<Curve> onCurveChanged;
-  final AnimationController animationController;
+  final AnimationController animController;
 
-  const CurvesThumbMenu(
-      {Key key,
-      this.currentCurve,
-      this.onCurveChanged,
-      @required this.animationController})
-      : super(key: key);
+  const CurvesThumbMenu({
+    Key key,
+    this.currentCurve,
+    this.onCurveChanged,
+    @required this.animController,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) => Padding(
@@ -44,8 +44,8 @@ class CurvesThumbMenu extends StatelessWidget {
           isExpanded: true,
           value: currentCurve,
           items: curves
-              .map((c) => _buildCurveMenuItem(c,
-                  CurvedAnimation(curve: c.curve, parent: animationController)))
+              .map((c) => _buildCurveMenuItem(
+                  c, CurvedAnimation(curve: c.curve, parent: animController)))
               .toList(),
           onChanged: onCurveChanged,
         ),
@@ -74,8 +74,11 @@ class CurvesThumbMenu extends StatelessWidget {
                   ),
                   child: CustomPaint(
                     willChange: false,
-                    painter: CurvePainter(animationController, curvedAnimation,
-                        thumbMode: true),
+                    painter: CurvePainter(
+                      animController,
+                      curvedAnimation,
+                      thumbMode: true,
+                    ),
                   ),
                 ),
               )
