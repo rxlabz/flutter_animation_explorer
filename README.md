@@ -12,4 +12,5 @@
   - AnimatedOpacity
   - AnimatedDefaultTextStyle
   - AnimatedCrossFade
-  
+ - Staggered animation explorer
+    

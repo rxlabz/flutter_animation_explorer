@@ -4,6 +4,7 @@ import 'package:quiver/time.dart';
 import 'animateds/animated_widgets.dart';
 import 'curves/curves_visualizer.dart';
 import 'nav.dart';
+import 'screens/staggered_anim_screen.dart';
 
 /// https://docs.flutter.io/flutter/widgets/ImplicitlyAnimatedWidget-class.html
 ///
@@ -30,7 +31,7 @@ class MainScreen extends StatefulWidget {
 
 class _MainScreenState extends State<MainScreen>
     with TickerProviderStateMixin, ChangeNotifier {
-  int _navIndex = 0;
+  int _navIndex = 2;
 
   TabController _widgetTabsController;
   AnimationController animController;
@@ -58,14 +59,16 @@ class _MainScreenState extends State<MainScreen>
         body: _buildBody(),
         bottomNavigationBar: buildBottomNav(_navIndex, onNavTab: _onNavTab),
         floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-        floatingActionButton: FloatingActionButton(
-          backgroundColor:
-              _navIndex == 0 && running ? Colors.grey : Colors.pink,
-          child: Icon(Icons.play_arrow),
-          onPressed: _navIndex == 0
-              ? running ? null : animController.forward
-              : notifyListeners,
-        ));
+        floatingActionButton: _navIndex != 2
+            ? FloatingActionButton(
+                backgroundColor:
+                    _navIndex == 0 && running ? Colors.grey : Colors.pink,
+                child: Icon(Icons.play_arrow),
+                onPressed: _navIndex == 0
+                    ? running ? null : animController.forward
+                    : notifyListeners,
+              )
+            : null);
   }
 
   _buildAppbar() {
@@ -78,7 +81,7 @@ class _MainScreenState extends State<MainScreen>
         : null;
 
     return AppBar(
-      title: Text(navItems[_navIndex].label),
+      title: Text('Flutter animation : ${navItems[_navIndex].label}'),
       bottom: tabBar,
     );
   }
@@ -90,6 +93,11 @@ class _MainScreenState extends State<MainScreen>
           tabController: _widgetTabsController,
           notifier: this,
         );
+      case 2:
+        return StaggeredScreen(
+            /*tabController: _widgetTabsController,
+          notifier: this,*/
+            );
       default:
         return AnimGraphr(animationController: animController);
     }

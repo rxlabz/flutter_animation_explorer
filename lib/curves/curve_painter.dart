@@ -73,7 +73,7 @@ class CurvePainter extends CustomPainter {
 
   @override
   bool shouldRepaint(CurvePainter oldDelegate) =>
-      controller.value != oldDelegate.controller.value;
+      thumbMode ? controller.value != oldDelegate.controller.value : null;
 }
 
 List<double> generateCurveValues(CurvedAnimation anim, int divisions) =>

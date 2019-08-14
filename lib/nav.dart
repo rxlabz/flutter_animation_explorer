@@ -18,7 +18,8 @@ class NavItem {
 
 const navItems = [
   NavItem('Curves', Icons.timeline),
-  NavItem('Animated widgets', Icons.settings_overscan)
+  NavItem('Animated widgets', Icons.settings_overscan),
+  NavItem('Staggered animation', Icons.timeline),
 ];
 
 BottomNavigationBar buildBottomNav(int index, {ValueChanged<int> onNavTab}) =>
@@ -27,6 +28,7 @@ BottomNavigationBar buildBottomNav(int index, {ValueChanged<int> onNavTab}) =>
       items: [
         builBottomNav(Icons.timeline, 'Curves'),
         builBottomNav(Icons.settings_overscan, 'Widgets'),
+        builBottomNav(Icons.settings_overscan, 'Staggered'),
       ],
       onTap: onNavTab,
     );
