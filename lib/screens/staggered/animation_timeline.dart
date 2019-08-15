@@ -41,16 +41,23 @@ class _AnimationTimelineRowState extends State<AnimationTimelineRow> {
 
   @override
   Widget build(BuildContext context) {
-    final header =
-        Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-      Text(
-          '${widget.label} [ ${widget.animationIntervalValue.start} - ${widget.animationIntervalValue.end} ]',
-          style: Theme.of(context).textTheme.subtitle),
-      IconButton(
-        icon: Icon(expanded ? Icons.expand_less : Icons.expand_more),
-        onPressed: () => setState(() => expanded = !expanded),
-      )
-    ]);
+    final header = Container(
+        color: Colors.grey.shade300,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Text(
+                  '${widget.label} [ ${widget.animationIntervalValue.start} - ${widget.animationIntervalValue.end} ]',
+                  style: Theme.of(context).textTheme.subtitle),
+            ),
+            IconButton(
+              icon: Icon(expanded ? Icons.expand_less : Icons.expand_more),
+              onPressed: () => setState(() => expanded = !expanded),
+            ),
+          ],
+        ));
 
     final intervalBegin = widget.animationIntervalValue.interval.begin;
     final intervalEnd = widget.animationIntervalValue.interval.end;
@@ -71,7 +78,7 @@ class _AnimationTimelineRowState extends State<AnimationTimelineRow> {
     );
   }
 
-  Column _buildExpandedBody(Row header, String intervalLabel,
+  Column _buildExpandedBody(Widget header, String intervalLabel,
       double intervalBegin, double intervalEnd) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,

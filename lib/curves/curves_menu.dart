@@ -62,7 +62,10 @@ class CurvesThumbMenu extends StatelessWidget {
               Expanded(
                 child: Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 16),
-                  child: Text('${c.name}'),
+                  child: Text(
+                    '${c.name}',
+                    style: TextStyle(fontSize: 13),
+                  ),
                 ),
               ),
               Expanded(

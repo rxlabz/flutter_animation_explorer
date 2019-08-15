@@ -21,7 +21,7 @@ class _StaggeredScreenState extends State<StaggeredScreen>
   AnimationIntervalValue<double> currentLeft = AnimationIntervalValue(
     interval: Interval(0, .5),
     start: 10,
-    end: 200,
+    end: 150,
     value: 10,
     curve: _defaultCurve,
   );
@@ -29,7 +29,7 @@ class _StaggeredScreenState extends State<StaggeredScreen>
   AnimationIntervalValue<double> currentTop = AnimationIntervalValue(
     interval: Interval(0.5, 1),
     start: 10,
-    end: 150,
+    end: 80,
     value: 10,
     curve: _defaultCurve,
   );
@@ -37,7 +37,7 @@ class _StaggeredScreenState extends State<StaggeredScreen>
   AnimationIntervalValue<double> currentWidth = AnimationIntervalValue(
     interval: Interval(0, 1),
     start: 20,
-    end: 250,
+    end: 150,
     value: 20,
     curve: _defaultCurve,
   );
@@ -45,7 +45,7 @@ class _StaggeredScreenState extends State<StaggeredScreen>
   AnimationIntervalValue<double> currentHeight = AnimationIntervalValue(
     interval: Interval(0, 1),
     start: 20,
-    end: 80,
+    end: 50,
     value: 20,
     curve: _defaultCurve,
   );
@@ -245,7 +245,7 @@ class _StaggeredScreenState extends State<StaggeredScreen>
         ],
       ),
       ConstrainedBox(
-        constraints: BoxConstraints.expand(height: 300),
+        constraints: BoxConstraints.expand(height: 200),
         child: AnimatedBuilder(
             animation: animationController,
             builder: (context, widget) => StaggeredAnimation(model: _model)),
@@ -349,6 +349,7 @@ class _StaggeredScreenState extends State<StaggeredScreen>
       TextEditingController startController,
       TextEditingController endController,
       onIntervalChanged}) {
+    final fieldStyle = const TextStyle(fontSize: 13);
     return AnimationTimelineRow(
       label: label,
       controller: animationController,
@@ -361,13 +362,14 @@ class _StaggeredScreenState extends State<StaggeredScreen>
             Expanded(
               child: Padding(
                   padding: _padding,
-                  child: TextField(controller: startController)),
+                  child: TextField(
+                      controller: startController, style: fieldStyle)),
             ),
             Text('End'),
             Expanded(
               child: Padding(
                 padding: _padding,
-                child: TextField(controller: endController),
+                child: TextField(controller: endController, style: fieldStyle),
               ),
             ),
           ],
@@ -407,9 +409,3 @@ class _StaggeredScreenState extends State<StaggeredScreen>
     );
   }
 }
-/*class TimeLineField extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Container();
-  }
-}*/
