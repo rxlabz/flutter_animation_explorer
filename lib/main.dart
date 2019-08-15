@@ -31,7 +31,7 @@ class MainScreen extends StatefulWidget {
 
 class _MainScreenState extends State<MainScreen>
     with TickerProviderStateMixin, ChangeNotifier {
-  int _navIndex = 2;
+  int _navIndex = 0;
 
   TabController _widgetTabsController;
   AnimationController animController;
