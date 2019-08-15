@@ -70,7 +70,7 @@ class _StaggeredScreenState extends State<StaggeredScreen>
 
   TextEditingController _widthStartFieldController;
 
-  TextEditingController widthEndFieldController;
+  TextEditingController _widthEndFieldController;
 
   TextEditingController _heightStartFieldController;
 
@@ -110,7 +110,7 @@ class _StaggeredScreenState extends State<StaggeredScreen>
         setState(() {
           currentLeft = currentLeft.copyWith(newEnd: newLeft);
           _model =
-              _model.copyWith(newLeft: currentLeft.copyWith(newStart: newLeft));
+              _model.copyWith(newLeft: currentLeft.copyWith(newEnd: newLeft));
           _updateAnimation();
         });
       });
@@ -130,8 +130,7 @@ class _StaggeredScreenState extends State<StaggeredScreen>
       ..addListener(() {
         final newTop = double.parse(_topStartFieldController.text);
         setState(() {
-          _model =
-              _model.copyWith(newTop: currentTop.copyWith(newStart: newTop));
+          _model = _model.copyWith(newTop: currentTop.copyWith(newEnd: newTop));
           _updateAnimation();
         });
       });
@@ -147,15 +146,16 @@ class _StaggeredScreenState extends State<StaggeredScreen>
             });
           });
 
-    widthEndFieldController = TextEditingController(text: '${currentWidth.end}')
-      ..addListener(() {
-        final newWidth = double.parse(_widthStartFieldController.text);
-        setState(() {
-          _model = _model.copyWith(
-              newWidth: currentWidth.copyWith(newStart: newWidth));
-          _updateAnimation();
-        });
-      });
+    _widthEndFieldController =
+        TextEditingController(text: '${currentWidth.end}')
+          ..addListener(() {
+            final newWidth = double.parse(_widthStartFieldController.text);
+            setState(() {
+              _model = _model.copyWith(
+                  newWidth: currentWidth.copyWith(newEnd: newWidth));
+              _updateAnimation();
+            });
+          });
 
     _heightStartFieldController =
         TextEditingController(text: '${currentHeight.start}')
@@ -174,7 +174,7 @@ class _StaggeredScreenState extends State<StaggeredScreen>
             final newHeight = double.parse(_heightStartFieldController.text);
             setState(() {
               _model = _model.copyWith(
-                  newHeight: currentHeight.copyWith(newStart: newHeight));
+                  newHeight: currentHeight.copyWith(newEnd: newHeight));
               _updateAnimation();
             });
           });
@@ -285,7 +285,7 @@ class _StaggeredScreenState extends State<StaggeredScreen>
                   label: 'Size : Width',
                   value: currentWidth,
                   startController: _widthStartFieldController,
-                  endController: widthEndFieldController,
+                  endController: _widthEndFieldController,
                   onIntervalChanged: (value) => setState(() {
                         currentWidth = value;
                         _widthTween = _initTween(currentWidth);
