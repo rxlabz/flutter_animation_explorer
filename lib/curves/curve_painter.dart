@@ -15,7 +15,7 @@ class CurvePainter extends CustomPainter {
 
   @override
   void paint(Canvas canvas, Size size) {
-    final points = generateCurveValues(anim, divisions);
+    final points = anim != null ? generateCurveValues(anim, divisions) : [];
     _drawAxis(canvas, size);
     _drawCurve(canvas, points, size);
     if (!thumbMode) _drawCurrentValueMarker(canvas, size, points);
@@ -73,7 +73,7 @@ class CurvePainter extends CustomPainter {
 
   @override
   bool shouldRepaint(CurvePainter oldDelegate) =>
-      thumbMode ? controller.value != oldDelegate.controller.value : null;
+      thumbMode ? controller.value != oldDelegate.controller.value : false;
 }
 
 List<double> generateCurveValues(CurvedAnimation anim, int divisions) =>

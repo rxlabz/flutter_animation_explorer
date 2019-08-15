@@ -37,9 +37,8 @@ class _AnimGraphrState extends State<AnimGraphr>
 
   @override
   void initState() {
-    super.initState();
-
     controller..addStatusListener(_onAnimationStatus);
+    super.initState();
   }
 
   _onAnimationStatus(status) {

@@ -31,7 +31,7 @@ class AnimationTimelineRow<T> extends StatefulWidget {
 }
 
 class _AnimationTimelineRowState extends State<AnimationTimelineRow> {
-  bool expanded;
+  bool expanded = false;
 
   @override
   void initState() {
@@ -44,7 +44,7 @@ class _AnimationTimelineRowState extends State<AnimationTimelineRow> {
     final header =
         Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
       Text(
-          '${widget.label} [ ${widget.animationIntervalValue.start} - ${widget.animationIntervalValue.end}]',
+          '${widget.label} [ ${widget.animationIntervalValue.start} - ${widget.animationIntervalValue.end} ]',
           style: Theme.of(context).textTheme.subtitle),
       IconButton(
         icon: Icon(expanded ? Icons.expand_less : Icons.expand_more),
@@ -86,6 +86,7 @@ class _AnimationTimelineRowState extends State<AnimationTimelineRow> {
             Expanded(
               child: RangeSlider(
                 values: RangeValues(intervalBegin, intervalEnd),
+                /*labels: RangeLabels('$intervalBegin', '$intervalEnd'),*/
                 onChanged: _onRangeChanged,
               ),
             ),
