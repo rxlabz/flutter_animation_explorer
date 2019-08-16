@@ -1,42 +1,41 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:quiver/time.dart';
 
 import 'animateds/animated_widgets.dart';
 import 'curves/curves_visualizer.dart';
 import 'nav.dart';
+import 'screens/staggered_anim_screen.dart';
 
 /// https://docs.flutter.io/flutter/widgets/ImplicitlyAnimatedWidget-class.html
 ///
-/// AnimatedAlign AnimatedContainer AnimatedDefaultTextStyle
-/// AnimatedOpacity AnimatedPadding AnimatedPhysicalModel
-/// AnimatedPositioned AnimatedPositionedDirectional AnimatedTheme
+/// - [x] AnimatedAlign
+/// - [x] AnimatedContainer
+/// - [x] AnimatedDefaultTextStyle
+/// - [x] AnimatedOpacity
+/// - [x] AnimatedPadding
+/// - [x] AnimatedPositioned
+/// - [ ] AnimatedPositionedDirectional
 ///
 ///
-void main() => runApp(MaterialApp(
-    theme: ThemeData.light().copyWith(
-        primaryColor: Colors.cyan, toggleableActiveColor: Colors.cyan),
-    home: MainScreen()));
+void main() {
+  debugDefaultTargetPlatformOverride = TargetPlatform.fuchsia;
+  runApp(MaterialApp(
+      theme: ThemeData.light().copyWith(
+        primaryColor: Colors.cyan,
+        toggleableActiveColor: Colors.cyan,
+      ),
+      home: MainScreen()));
+}
 
 class MainScreen extends StatefulWidget {
   @override
   _MainScreenState createState() => _MainScreenState();
 }
 
-class NavItem {
-  final String label;
-  final IconData icon;
-
-  const NavItem(this.label, this.icon);
-}
-
-const navItems = [
-  NavItem('Curves', Icons.timeline),
-  NavItem('Animated widgets', Icons.settings_overscan)
-];
-
 class _MainScreenState extends State<MainScreen>
     with TickerProviderStateMixin, ChangeNotifier {
-  int _navIndex = 0;
+  int _navIndex = 2;
 
   TabController _widgetTabsController;
   AnimationController animController;
@@ -64,14 +63,16 @@ class _MainScreenState extends State<MainScreen>
         body: _buildBody(),
         bottomNavigationBar: buildBottomNav(_navIndex, onNavTab: _onNavTab),
         floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-        floatingActionButton: FloatingActionButton(
-          backgroundColor:
-              _navIndex == 0 && running ? Colors.grey : Colors.pink,
-          child: Icon(Icons.play_arrow),
-          onPressed: _navIndex == 0
-              ? running ? null : animController.forward
-              : notifyListeners,
-        ));
+        floatingActionButton: _navIndex != 2
+            ? FloatingActionButton(
+                backgroundColor:
+                    _navIndex == 0 && running ? Colors.grey : Colors.pink,
+                child: Icon(Icons.play_arrow),
+                onPressed: _navIndex == 0
+                    ? running ? null : animController.forward
+                    : notifyListeners,
+              )
+            : null);
   }
 
   _buildAppbar() {
@@ -84,20 +85,25 @@ class _MainScreenState extends State<MainScreen>
         : null;
 
     return AppBar(
-      title: Text(navItems[_navIndex].label),
+      title: Text('Flutter animation : ${navItems[_navIndex].label}'),
       bottom: tabBar,
     );
   }
 
   _buildBody() {
     switch (_navIndex) {
-      case 0:
-        return AnimGraphr(animationController: animController);
       case 1:
         return AnimatedWidgetsScreen(
-            tabController: _widgetTabsController, notifier: this);
-      /*case 2:
-        return HeroScreen(tabController: _widgetTabsController, notifier: this);*/
+          tabController: _widgetTabsController,
+          notifier: this,
+        );
+      case 2:
+        return StaggeredScreen(
+            /*tabController: _widgetTabsController,
+          notifier: this,*/
+            );
+      default:
+        return AnimGraphr(animationController: animController);
     }
   }
 
