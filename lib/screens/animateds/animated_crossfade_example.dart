@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:quiver/time.dart';
 
-import '../controls/duration_control.dart';
-import '../curves/curves_menu.dart';
+import '../../controls/duration_control.dart';
+import '../../curves/curves_menu.dart';
 
 class AnimatedCrossFadeExample extends StatefulWidget {
   final ChangeNotifier controller;
@@ -24,6 +24,8 @@ class _AnimatedCrossFadeExampleState extends State<AnimatedCrossFadeExample>
 
   Curve _secondCurve = Curves.linear;
 
+  AnimationController animationController;
+
   @override
   void initState() {
     super.initState();
@@ -40,8 +42,7 @@ class _AnimatedCrossFadeExampleState extends State<AnimatedCrossFadeExample>
 
   @override
   Widget build(BuildContext context) {
-    final animationController =
-        AnimationController(duration: aSecond, vsync: this);
+    animationController = AnimationController(duration: aSecond, vsync: this);
     return SizedBox.expand(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
@@ -95,13 +96,15 @@ class _AnimatedCrossFadeExampleState extends State<AnimatedCrossFadeExample>
           ),
           AnimatedCrossFade(
             firstCurve: _firstCurve,
-            secondCurve: _secondCurve,
+            /*
+            secondCurve: _secondCurve,*/
             sizeCurve: _firstCurve,
             duration: aMillisecond * _duration,
+            reverseDuration: aMillisecond * _duration,
             firstChild: ExampleBox(
                 key: Key('b1'), text: 'BOX 1', color: Colors.blue, width: 150),
             secondChild: ExampleBox(
-                key: Key('b2'), text: 'BOX 2', color: Colors.green, width: 250),
+                key: Key('b2'), text: 'BOX 2', color: Colors.green, width: 350),
             crossFadeState:
                 _first ? CrossFadeState.showFirst : CrossFadeState.showSecond,
           ),

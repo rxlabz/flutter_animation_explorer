@@ -7,6 +7,12 @@ import 'staggered_animation.dart';
 
 final _padding = const EdgeInsets.all(8.0);
 
+final _fieldBorder =
+    BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(8));
+
+final _headerBorder = BoxDecoration(
+    color: Colors.grey.shade100, borderRadius: BorderRadius.circular(8));
+
 class AnimationTimelineRow<T> extends StatefulWidget {
   final AnimationController controller;
   final AnimationIntervalValue<double> animationIntervalValue;
@@ -42,7 +48,7 @@ class _AnimationTimelineRowState extends State<AnimationTimelineRow> {
   @override
   Widget build(BuildContext context) {
     final header = Container(
-        color: Colors.grey.shade300,
+        decoration: _headerBorder,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
@@ -68,7 +74,7 @@ class _AnimationTimelineRowState extends State<AnimationTimelineRow> {
     return Padding(
       padding: _padding,
       child: Container(
-        color: Colors.grey.shade200,
+        decoration: _fieldBorder,
         padding: _padding,
         child: expanded
             ? _buildExpandedBody(
@@ -92,8 +98,9 @@ class _AnimationTimelineRowState extends State<AnimationTimelineRow> {
             ),
             Expanded(
               child: RangeSlider(
+                activeColor: Colors.pink,
                 values: RangeValues(intervalBegin, intervalEnd),
-                /*labels: RangeLabels('$intervalBegin', '$intervalEnd'),*/
+                labels: RangeLabels('$intervalBegin', '$intervalEnd'),
                 onChanged: _onRangeChanged,
               ),
             ),

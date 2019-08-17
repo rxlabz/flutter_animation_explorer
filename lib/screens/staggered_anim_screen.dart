@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 
 import '../controls/duration_control.dart';
+import '../controls/example_header.dart';
+import '../controls/theme_code_preview.dart';
+import '../examples.dart';
 import 'staggered/animation_timeline.dart';
 import 'staggered/staggered_animation.dart';
 
@@ -16,6 +19,8 @@ class StaggeredScreen extends StatefulWidget {
 
 class _StaggeredScreenState extends State<StaggeredScreen>
     with SingleTickerProviderStateMixin {
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+
   Color currentColor;
 
   AnimationIntervalValue<double> currentLeft = AnimationIntervalValue(
@@ -80,8 +85,8 @@ class _StaggeredScreenState extends State<StaggeredScreen>
 
   StaggeredAnimationModel _model;
 
-  Animation<double> _leftTween;
   Animation<double> _topTween;
+  Animation<double> _leftTween;
   Animation<double> _widthTween;
   Animation<double> _heightTween;
   Animation<double> _opacityTween;
@@ -218,93 +223,128 @@ class _StaggeredScreenState extends State<StaggeredScreen>
       opacity: currentOpacity.copyWith(newValue: _opacityTween.value),
     );
     _updateTweens();
+    setState(() {});
   }
 
   @override
   Widget build(BuildContext context) {
-    return Column(children: <Widget>[
-      Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: <Widget>[
-          Padding(
-            padding: _padding,
-            child: RaisedButton.icon(
-              onPressed: () => animationController.forward(),
-              icon: Icon(Icons.play_arrow),
-              label: Text('forward'),
-            ),
-          ),
-          Padding(
-            padding: _padding,
-            child: RaisedButton.icon(
-              onPressed: () => animationController.reverse(),
-              icon: Icon(Icons.settings_backup_restore),
-              label: Text('Reverse'),
-            ),
-          ),
+    return Scaffold(
+      key: _scaffoldKey,
+      backgroundColor: Colors.grey.shade300,
+      appBar: AppBar(
+        title: Text('Flutter Animation'),
+        actions: <Widget>[
+          FlatButton.icon(
+            onPressed: () => _scaffoldKey.currentState.openEndDrawer(),
+            icon: Icon(Icons.code, color: Colors.white),
+            label: Text('Code', style: TextStyle(color: Colors.white)),
+          )
         ],
       ),
-      ConstrainedBox(
-        constraints: BoxConstraints.expand(height: 200),
-        child: AnimatedBuilder(
-            animation: animationController,
-            builder: (context, widget) => StaggeredAnimation(model: _model)),
+      endDrawer: Drawer(
+        child: ThemeCodePreview(staggeredExample),
       ),
-      Expanded(
-        child: SingleChildScrollView(
-          child: Column(
-            children: <Widget>[
-              AnimatedBuilder(
-                animation: animationController,
-                builder: (context, widget) => Column(
-                  children: <Widget>[
-                    Padding(padding: _padding, child: _buildDurationRow()),
-                    Slider(value: animationController.value, onChanged: null),
-                  ],
-                ),
+      body: ListView(
+          /*crossAxisAlignment: CrossAxisAlignment.start,*/
+          children: <Widget>[
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16.0),
+              child: ExampleHeader(
+                  title: 'Staggered animation',
+                  description:
+                      'With Interval You can decompose an animation in multiple "child animations".'),
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: <Widget>[
+                  Padding(
+                    padding: _padding,
+                    child: RaisedButton.icon(
+                      key: Key('btForward'),
+                      onPressed: animationController.status ==
+                              AnimationStatus.dismissed
+                          ? () => animationController.forward()
+                          : null,
+                      icon: Icon(Icons.play_arrow),
+                      label: Text('forward',
+                          style: TextStyle(color: Colors.white)),
+                      color: Colors.pink,
+                    ),
+                  ),
+                  Padding(
+                    padding: _padding,
+                    child: RaisedButton.icon(
+                      key: Key('btReverse'),
+                      onPressed: animationController.status ==
+                              AnimationStatus.completed
+                          ? () => animationController.reverse()
+                          : null,
+                      icon: Icon(Icons.settings_backup_restore),
+                      label: Text('Reverse',
+                          style: TextStyle(color: Colors.white)),
+                      color: Colors.pink,
+                    ),
+                  ),
+                ],
               ),
-              _buildTimelineItemField(
-                  label: 'Position : Left',
-                  value: currentLeft,
-                  startController: _leftStartFieldController,
-                  endController: _leftEndFieldController,
-                  onIntervalChanged: (value) => setState(() {
-                        currentLeft = value;
-                        _leftTween = _initTween(currentLeft);
-                      })),
-              _buildTimelineItemField(
-                  label: 'Position : Top',
-                  value: currentTop,
-                  startController: _topStartFieldController,
-                  endController: _topEndFieldController,
-                  onIntervalChanged: (value) => setState(() {
-                        currentTop = value;
-                        _topTween = _initTween(currentTop);
-                      })),
-              _buildTimelineItemField(
-                  label: 'Size : Width',
-                  value: currentWidth,
-                  startController: _widthStartFieldController,
-                  endController: _widthEndFieldController,
-                  onIntervalChanged: (value) => setState(() {
-                        currentWidth = value;
-                        _widthTween = _initTween(currentWidth);
-                      })),
-              _buildTimelineItemField(
-                  label: 'Size : Height',
-                  value: currentHeight,
-                  startController: _heightStartFieldController,
-                  endController: _heightEndFieldController,
-                  onIntervalChanged: (value) => setState(() {
-                        currentHeight = value;
-                        _heightTween = _initTween(currentHeight);
-                      })),
-              _buildOpacityTimelineRow(),
-            ],
-          ),
-        ),
-      )
-    ]);
+            ),
+            ConstrainedBox(
+              constraints: BoxConstraints.expand(height: 200),
+              child: AnimatedBuilder(
+                  animation: animationController,
+                  builder: (context, widget) =>
+                      StaggeredAnimation(model: _model)),
+            ),
+            Column(
+              children: <Widget>[
+                AnimatedBuilder(
+                  animation: animationController,
+                  builder: (context, widget) =>
+                      Padding(padding: _padding, child: _buildDurationRow()),
+                ),
+                _buildTimelineItemField(
+                    label: 'Position : Left',
+                    value: currentLeft,
+                    startController: _leftStartFieldController,
+                    endController: _leftEndFieldController,
+                    onIntervalChanged: (value) => setState(() {
+                          currentLeft = value;
+                          _leftTween = _initTween(currentLeft);
+                        })),
+                _buildTimelineItemField(
+                    label: 'Position : Top',
+                    value: currentTop,
+                    startController: _topStartFieldController,
+                    endController: _topEndFieldController,
+                    onIntervalChanged: (value) => setState(() {
+                          currentTop = value;
+                          _topTween = _initTween(currentTop);
+                        })),
+                _buildTimelineItemField(
+                    label: 'Size : Width',
+                    value: currentWidth,
+                    startController: _widthStartFieldController,
+                    endController: _widthEndFieldController,
+                    onIntervalChanged: (value) => setState(() {
+                          currentWidth = value;
+                          _widthTween = _initTween(currentWidth);
+                        })),
+                _buildTimelineItemField(
+                    label: 'Size : Height',
+                    value: currentHeight,
+                    startController: _heightStartFieldController,
+                    endController: _heightEndFieldController,
+                    onIntervalChanged: (value) => setState(() {
+                          currentHeight = value;
+                          _heightTween = _initTween(currentHeight);
+                        })),
+                _buildOpacityTimelineRow(),
+              ],
+            )
+          ]),
+    );
   }
 
   AnimationTimelineRow _buildOpacityTimelineRow() {
@@ -392,7 +432,6 @@ class _StaggeredScreenState extends State<StaggeredScreen>
     final progress = (animationController.value * 100).toInt();
     return Row(
       children: <Widget>[
-        Text('Duration'),
         Expanded(
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -401,7 +440,33 @@ class _StaggeredScreenState extends State<StaggeredScreen>
                 duration: animationController.duration.inMilliseconds,
                 onDurationChange: _onDurationChanged,
               ),
-              Text('$progress %')
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                child: Container(
+                  margin: const EdgeInsets.symmetric(vertical: 8.0),
+                  padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                  decoration: BoxDecoration(
+                    color: Colors.cyan,
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Text(
+                      '$progress %',
+                      style: Theme.of(context)
+                          .textTheme
+                          .title
+                          .copyWith(color: Colors.white),
+                    ),
+                  ),
+                ),
+              ),
+              Expanded(
+                child: Slider(
+                  value: animationController.value,
+                  onChanged: null,
+                ),
+              )
             ],
           ),
         )

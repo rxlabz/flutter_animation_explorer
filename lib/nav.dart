@@ -6,7 +6,7 @@ const widgetTabs = [
   Tab(text: 'Align'),
   Tab(text: 'Text'),
   Tab(text: 'Opacity'),
-  Tab(text: 'CrossFade'),
+  /*Tab(text: 'CrossFade'),*/
 ];
 
 class NavItem {

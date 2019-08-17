@@ -39,15 +39,32 @@ class CurvesThumbMenu extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Padding(
-        padding: const EdgeInsets.all(8),
-        child: DropdownButton(
-          isExpanded: true,
-          value: currentCurve,
-          items: curves
-              .map((c) => _buildCurveMenuItem(
-                  c, CurvedAnimation(curve: c.curve, parent: animController)))
-              .toList(),
-          onChanged: onCurveChanged,
+        padding: const EdgeInsets.symmetric(horizontal: 8),
+        child: Row(
+          children: <Widget>[
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 8),
+              child: Text(
+                'Curve',
+                style: Theme.of(context).textTheme.subtitle,
+              ),
+            ),
+            Expanded(
+              child: DropdownButton(
+                iconSize: 32,
+                iconEnabledColor: Colors.pink,
+                isExpanded: true,
+                value: currentCurve,
+                items: curves
+                    .map((c) => _buildCurveMenuItem(
+                        c,
+                        CurvedAnimation(
+                            curve: c.curve, parent: animController)))
+                    .toList(),
+                onChanged: onCurveChanged,
+              ),
+            ),
+          ],
         ),
       );
 
@@ -55,13 +72,13 @@ class CurvesThumbMenu extends StatelessWidget {
           NamedCurve c, CurvedAnimation curvedAnimation) =>
       DropdownMenuItem(
         child: Padding(
-          padding: const EdgeInsets.all(8),
+          padding: const EdgeInsets.symmetric(vertical: 8),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
               Expanded(
                 child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 16),
+                  padding: const EdgeInsets.only(right: 10),
                   child: Text(
                     '${c.name}',
                     style: TextStyle(fontSize: 13),

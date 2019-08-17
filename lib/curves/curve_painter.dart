@@ -13,9 +13,14 @@ class CurvePainter extends CustomPainter {
 
   final AnimationController controller;
 
+  double _heightRef;
+  double _widthRef;
+
   @override
   void paint(Canvas canvas, Size size) {
     final points = anim != null ? generateCurveValues(anim, divisions) : [];
+    _heightRef = size.height * .8;
+    _widthRef = size.width;
     _drawAxis(canvas, size);
     _drawCurve(canvas, points, size);
     if (!thumbMode) _drawCurrentValueMarker(canvas, size, points);
@@ -23,18 +28,20 @@ class CurvePainter extends CustomPainter {
 
   void _drawCurrentValueMarker(Canvas canvas, Size size, List<double> points) {
     canvas.drawCircle(
-      Offset(controller.value * size.width,
-          points[(controller.value * (divisions - 1)).floor()] * size.height),
+      Offset(
+          controller.value * _widthRef,
+          points[(controller.value * (divisions - 1)).floor()] *
+              (_heightRef * 1.1)),
       5.0,
-      Paint()..color = Colors.pink,
+      Paint()..color = Colors.cyan.shade800,
     );
   }
 
   void _drawCurve(Canvas canvas, List<double> points, Size size) {
     enumerate(points)
         .map((y) => Offset(
-              y.index / divisions * size.width,
-              y.value * size.height,
+              y.index / divisions * _widthRef,
+              y.value * _heightRef * 1.1,
             ))
         .forEach((p) => canvas.drawCircle(p, 1, ptPaint));
 
@@ -43,8 +50,8 @@ class CurvePainter extends CustomPainter {
       PointMode.polygon,
       enumerate(points)
           .map((y) => Offset(
-                y.index / divisions * size.width,
-                y.value * size.height,
+                y.index / divisions * _widthRef,
+                y.value * _heightRef,
               ))
           .toList(),
       ptPaint,
@@ -53,14 +60,15 @@ class CurvePainter extends CustomPainter {
 
   void _drawAxis(Canvas canvas, Size size) {
     if (!thumbMode) {
-      _paintText(canvas, 'time',
-          Offset(size.width, size.height) - Offset(30, 18), size.width);
-      _paintText(canvas, 'value', Offset(10, 0), size.width);
+      _paintText(canvas, 'time', Offset(_widthRef, _heightRef) - Offset(30, 18),
+          _widthRef);
+      _paintText(canvas, 'value', Offset(10, 0), _widthRef);
     }
 
+    canvas.drawLine(Offset(0, _heightRef * 1.1),
+        Offset(_widthRef, _heightRef * 1.1), axisPaint);
     canvas.drawLine(
-        Offset(0, size.height), Offset(size.width, size.height), axisPaint);
-    canvas.drawLine(Offset(0, 0), Offset(0, size.height), axisPaint);
+        Offset(0, _heightRef * 0.1), Offset(0, _heightRef * 1.1), axisPaint);
   }
 
   TextPainter _paintText(
