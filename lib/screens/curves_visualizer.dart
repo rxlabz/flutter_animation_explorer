@@ -12,6 +12,11 @@ import '../curves/curve_painter.dart';
 import '../curves/curves_data.dart';
 import '../examples.dart';
 
+const _description = 'You can apply various kinds of acceleration/deceleration '
+    'to your animations. You can select them from Curves static properties.';
+
+const _title = 'Animation curves explorer';
+
 class CurveVisualizer extends StatefulWidget {
   const CurveVisualizer({Key key}) : super(key: key);
 
@@ -72,7 +77,7 @@ class _CurveVisualizerState extends State<CurveVisualizer>
         actions: <Widget>[
           IconButton(
             icon: Icon(Icons.code),
-            onPressed: _openCodePreview,
+            onPressed: () => _scaffoldKey.currentState.openEndDrawer(),
           )
         ],
       ),
@@ -89,20 +94,14 @@ class _CurveVisualizerState extends State<CurveVisualizer>
         animation: animationController,
         builder: (context, widget) => Padding(
           padding: const EdgeInsets.all(16.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisAlignment: MainAxisAlignment.start,
+          child: ListView(
             children: <Widget>[
-              ExampleHeader(
-                  title: 'Animation curves explorer',
-                  description:
-                      'You can apply various kinds of acceleration/deceleration to your animations. You can select them from Curves static properties.'),
+              ExampleHeader(title: _title, description: _description),
               ConstrainedBox(
                 constraints: BoxConstraints(maxHeight: 100),
                 child: AnimationControl(
                   duration: _duration,
                   curve: _currentCurve,
-                  /*direction: Axis.vertical,*/
                   animationController: animationController,
                   onDurationChanged: (value) =>
                       setState(() => _duration += value),
@@ -110,47 +109,8 @@ class _CurveVisualizerState extends State<CurveVisualizer>
                       setState(() => _currentCurve = curve),
                 ),
               ),
-              Padding(
-                padding: const EdgeInsets.all(8),
-                child: Container(
-                  decoration: _fieldBorder,
-                  padding: const EdgeInsets.all(12),
-                  constraints: BoxConstraints.expand(height: 150),
-                  child: CustomPaint(
-                      key: Key('curveGraph'),
-                      painter:
-                          CurvePainter(animationController, _curvedAnimation)),
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                child: Row(
-                  children: <Widget>[
-                    Text(
-                      'Animate',
-                      style: Theme.of(context).textTheme.subtitle,
-                    ),
-                    Checkbox(
-                        activeColor: Colors.pink,
-                        value: _animatedSize,
-                        onChanged: (value) =>
-                            setState(() => _animatedSize = value)),
-                    Text('Size'),
-                    Checkbox(
-                        activeColor: Colors.pink,
-                        value: _animatedOpacity,
-                        onChanged: (value) =>
-                            setState(() => _animatedOpacity = value)),
-                    Text('Opacity'),
-                    Checkbox(
-                        activeColor: Colors.pink,
-                        value: _animatedPosition,
-                        onChanged: (value) =>
-                            setState(() => _animatedPosition = value)),
-                    Text('Position'),
-                  ],
-                ),
-              ),
+              _buildCurvePainter(animationController.value),
+              _buildAnimationOptions(context),
               AnimationContainer(
                 child: AnimationExample(
                   value: _curvedAnimation.value,
@@ -166,8 +126,65 @@ class _CurveVisualizerState extends State<CurveVisualizer>
     );
   }
 
-  void _openCodePreview() {
-    _scaffoldKey.currentState.openEndDrawer();
+  Padding _buildAnimationOptions(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 8.0),
+      child: Wrap(
+        crossAxisAlignment: WrapCrossAlignment.center,
+        children: <Widget>[
+          Text(
+            'Animate',
+            style: Theme.of(context).textTheme.subtitle,
+          ),
+          Row(
+            mainAxisSize: MainAxisSize.min,
+            children: <Widget>[
+              Checkbox(
+                  activeColor: Colors.pink,
+                  value: _animatedSize,
+                  onChanged: (value) => setState(() => _animatedSize = value)),
+              Text('Size'),
+            ],
+          ),
+          Row(
+            mainAxisSize: MainAxisSize.min,
+            children: <Widget>[
+              Checkbox(
+                  activeColor: Colors.pink,
+                  value: _animatedOpacity,
+                  onChanged: (value) =>
+                      setState(() => _animatedOpacity = value)),
+              Text('Opacity'),
+            ],
+          ),
+          Row(
+            mainAxisSize: MainAxisSize.min,
+            children: <Widget>[
+              Checkbox(
+                  activeColor: Colors.pink,
+                  value: _animatedPosition,
+                  onChanged: (value) =>
+                      setState(() => _animatedPosition = value)),
+              Text('Position'),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+
+  Padding _buildCurvePainter(double value) {
+    return Padding(
+      padding: const EdgeInsets.all(8),
+      child: Container(
+        decoration: _fieldBorder,
+        padding: const EdgeInsets.all(12),
+        constraints: BoxConstraints.expand(height: 150),
+        child: CustomPaint(
+            key: Key('curveGraph'),
+            painter: CurvePainter(value, _curvedAnimation)),
+      ),
+    );
   }
 }
 

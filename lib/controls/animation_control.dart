@@ -33,8 +33,7 @@ class AnimationControl extends StatelessWidget {
         Expanded(
           child: DurationControl(
             duration: duration,
-            onDurationChange: (value) =>
-                duration > 100 ? onDurationChanged : null,
+            onDurationChange: duration > 100 ? onDurationChanged : null,
           ),
         ),
         SizedBox(

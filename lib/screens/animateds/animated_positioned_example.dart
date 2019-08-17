@@ -1,17 +1,15 @@
-import 'package:animation_widgets/examples.dart';
 import 'package:flutter/material.dart';
 import 'package:quiver/time.dart';
 
-import '../../controls/animation_control.dart';
 import '../../controls/animation_container.dart';
+import '../../controls/animation_control.dart';
 import '../../controls/example_header.dart';
-import '../../controls/theme_code_preview.dart';
 import '../../curves/curves_data.dart';
 
 final positions = [
-  Rect.fromLTWH(0, 0, 200, 200),
-  Rect.fromLTWH(100, 100, 150, 150),
-  Rect.fromLTWH(0, 200, 200, 100),
+  Rect.fromLTWH(0, 0, 200, 120),
+  Rect.fromLTWH(50, 50, 150, 150),
+  Rect.fromLTWH(0, 100, 120, 100),
 ];
 
 class AnimatedPositionedExample extends StatefulWidget {
@@ -62,8 +60,8 @@ class _AnimatedPositionedExampleState extends State<AnimatedPositionedExample>
     return SizedBox.expand(
       child: Padding(
         padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+        child: ListView(
+          /*crossAxisAlignment: CrossAxisAlignment.start,*/
           children: <Widget>[
             ExampleHeader(
                 title: 'AnimatedPositioned',
@@ -82,7 +80,8 @@ class _AnimatedPositionedExampleState extends State<AnimatedPositionedExample>
                     setState(() => _currentCurve = curve),
               ),
             ),
-            Expanded(
+            ConstrainedBox(
+              constraints: BoxConstraints(maxHeight: 300),
               child: AnimationContainer(
                 child: Stack(
                   children: <Widget>[

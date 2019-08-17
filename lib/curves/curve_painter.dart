@@ -6,12 +6,13 @@ import 'package:quiver/iterables.dart';
 import 'curves_data.dart';
 
 class CurvePainter extends CustomPainter {
-  CurvePainter(this.controller, this.anim, {this.thumbMode = false});
+  CurvePainter(this.value, this.anim, {this.thumbMode = false});
 
   final CurvedAnimation anim;
   final bool thumbMode;
 
-  final AnimationController controller;
+  final double value;
+  //final AnimationController controller;
 
   double _heightRef;
   double _widthRef;
@@ -28,10 +29,8 @@ class CurvePainter extends CustomPainter {
 
   void _drawCurrentValueMarker(Canvas canvas, Size size, List<double> points) {
     canvas.drawCircle(
-      Offset(
-          controller.value * _widthRef,
-          points[(controller.value * (divisions - 1)).floor()] *
-              (_heightRef * 1.1)),
+      Offset(value * _widthRef,
+          points[(value * (divisions - 1)).floor()] * (_heightRef * 1.1)),
       5.0,
       Paint()..color = Colors.cyan.shade800,
     );
@@ -80,8 +79,7 @@ class CurvePainter extends CustomPainter {
         ..paint(canvas, offset);
 
   @override
-  bool shouldRepaint(CurvePainter oldDelegate) =>
-      thumbMode ? controller.value != oldDelegate.controller.value : false;
+  bool shouldRepaint(CurvePainter oldDelegate) => true;
 }
 
 List<double> generateCurveValues(CurvedAnimation anim, int divisions) =>

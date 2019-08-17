@@ -95,7 +95,7 @@ class CurvesThumbMenu extends StatelessWidget {
                   child: CustomPaint(
                     willChange: false,
                     painter: CurvePainter(
-                      animController,
+                      animController.value,
                       curvedAnimation,
                       thumbMode: true,
                     ),

@@ -46,55 +46,55 @@ class _AnimatedContainerExampleState extends State<AnimatedContainerExample>
 
   @override
   Widget build(BuildContext context) {
-    double itemWidth = ((_count % 3) + 1) * 100;
+    double itemWidth = ((_count % 3) + 1) * 70;
     double itemHeight = ((_count % 3) + 1) * 60;
-    return SizedBox.expand(
-      child: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: <Widget>[
-            ExampleHeader(
-                title: 'AnimatedContainer',
-                description:
-                    'An AnimatedContainer can automatically interpolate between differents values of his properties( width, height, color, padding).'),
-            ConstrainedBox(
-              constraints: BoxConstraints(maxHeight: 100),
-              child: AnimationControl(
-                duration: _duration,
-                curve: _currentCurve,
-                /*direction: Axis.vertical,*/
-                animationController: animationController,
-                onDurationChanged: (value) =>
-                    setState(() => _duration += value),
-                onCurveChanged: (curve) =>
-                    setState(() => _currentCurve = curve),
-              ),
+    return Padding(
+      padding: const EdgeInsets.all(16.0),
+      child: ListView(
+        /*crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,*/
+        children: <Widget>[
+          ExampleHeader(
+              title: 'AnimatedContainer',
+              description:
+                  'An AnimatedContainer can automatically interpolate between differents values of his properties( width, height, color, padding).'),
+          ConstrainedBox(
+            constraints: BoxConstraints(maxHeight: 100),
+            child: AnimationControl(
+              duration: _duration,
+              curve: _currentCurve,
+              /*direction: Axis.vertical,*/
+              animationController: animationController,
+              onDurationChanged: (value) => setState(() {
+                _duration += value;
+                //animationController.duration = _duration;
+              }),
+              onCurveChanged: (curve) => setState(() => _currentCurve = curve),
             ),
-            Expanded(
-              child: AnimationContainer(
-                child: Center(
-                  child: AnimatedContainer(
-                    duration: aMillisecond * _duration,
-                    curve: _currentCurve,
-                    color: Colors.primaries[(_count % 8).floor()],
-                    height: itemHeight,
-                    width: itemWidth,
-                    child: Center(
-                        child: Text(
-                      'Animated Container',
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                        color: Colors.white,
-                      ),
-                    )),
-                  ),
+          ),
+          ConstrainedBox(
+            constraints: BoxConstraints(maxHeight: 300),
+            child: AnimationContainer(
+              child: Center(
+                child: AnimatedContainer(
+                  duration: aMillisecond * _duration,
+                  curve: _currentCurve,
+                  color: Colors.primaries[(_count % 8).floor()],
+                  height: itemHeight,
+                  width: itemWidth,
+                  child: Center(
+                      child: Text(
+                    'Animated Container',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      color: Colors.white,
+                    ),
+                  )),
                 ),
               ),
-            )
-          ],
-        ),
+            ),
+          )
+        ],
       ),
     );
   }

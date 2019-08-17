@@ -60,7 +60,7 @@ class _AnimatedWidgetsScreenState extends State<AnimatedWidgetsScreen>
       endDrawer: Drawer(
         child: ThemeCodePreview(codeExamples[_widgetTabsController.index]),
       ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.endTop,
+      floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
       floatingActionButton: FloatingActionButton(
         backgroundColor: running ? Colors.grey : Colors.pink,
         child: Icon(Icons.play_arrow),
@@ -85,7 +85,7 @@ class _AnimatedWidgetsScreenState extends State<AnimatedWidgetsScreen>
     );
 
     return AppBar(
-      title: Text('Flutter animated widgets'),
+      title: Text('Animated widgets'),
       bottom: tabBar,
       actions: <Widget>[
         FlatButton.icon(

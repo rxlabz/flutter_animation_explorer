@@ -43,9 +43,9 @@ class _AnimatedOpacityExampleState extends State<AnimatedOpacityExample>
     return SizedBox.expand(
       child: Padding(
         padding: const EdgeInsets.all(16),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        child: ListView(
+          /*crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,*/
           children: <Widget>[
             ExampleHeader(
                 title: 'AnimatedOpacity',
@@ -64,7 +64,8 @@ class _AnimatedOpacityExampleState extends State<AnimatedOpacityExample>
                     setState(() => _currentCurve = curve),
               ),
             ),
-            Expanded(
+            ConstrainedBox(
+              constraints: BoxConstraints(maxHeight: 180),
               child: AnimationContainer(
                 child: AnimatedOpacity(
                   curve: _currentCurve,
@@ -72,8 +73,8 @@ class _AnimatedOpacityExampleState extends State<AnimatedOpacityExample>
                   opacity: opaque ? 1 : .2,
                   child: Container(
                     color: Colors.pink,
-                    height: 200,
-                    width: 200,
+                    height: 60,
+                    width: 120,
                     child: Center(
                         child: Text(
                       'Animated Opacity ${opaque ? 1 : 0.2}',

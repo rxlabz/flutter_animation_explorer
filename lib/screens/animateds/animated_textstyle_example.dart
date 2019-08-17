@@ -50,9 +50,9 @@ class _AnimatedTextExampleState extends State<AnimatedTextExample>
     return SizedBox.expand(
       child: Padding(
         padding: const EdgeInsets.all(16),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        child: ListView(
+          /*crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,*/
           children: <Widget>[
             ExampleHeader(
                 title: 'AnimatedDefaultTextStyle',
@@ -71,7 +71,8 @@ class _AnimatedTextExampleState extends State<AnimatedTextExample>
                     setState(() => _currentCurve = curve),
               ),
             ),
-            Expanded(
+            ConstrainedBox(
+              constraints: BoxConstraints(maxHeight: 200),
               child: AnimationContainer(
                 child: Container(
                   height: 300,

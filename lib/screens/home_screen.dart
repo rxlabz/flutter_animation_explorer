@@ -6,9 +6,6 @@ class HomeScreen extends StatelessWidget {
     final textTheme = Theme.of(context).textTheme;
     return Scaffold(
       backgroundColor: Colors.grey.shade300,
-      /*appBar: AppBar(
-        title: Text('Flutter animation explorer'),
-      ),*/
       body: SingleChildScrollView(
         child: Center(
           child: Column(
@@ -18,6 +15,7 @@ class HomeScreen extends StatelessWidget {
                 padding: const EdgeInsets.all(16.0),
                 child: Text(
                   'Flutter animations guide',
+                  textAlign: TextAlign.center,
                   style: Theme.of(context).textTheme.display1,
                 ),
               ),

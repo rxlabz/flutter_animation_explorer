@@ -60,8 +60,8 @@ class _AnimatedAlignExampleState extends State<AnimatedAlignExample>
     return SizedBox.expand(
       child: Padding(
         padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+        child: ListView(
+          /*crossAxisAlignment: CrossAxisAlignment.start,*/
           children: <Widget>[
             ExampleHeader(
                 title: 'AnimatedAlign',
@@ -80,7 +80,8 @@ class _AnimatedAlignExampleState extends State<AnimatedAlignExample>
                     setState(() => _currentCurve = curve),
               ),
             ),
-            Expanded(
+            ConstrainedBox(
+              constraints: BoxConstraints(maxHeight: 300),
               child: AnimationContainer(
                 child: Stack(
                   children: <Widget>[
@@ -90,7 +91,7 @@ class _AnimatedAlignExampleState extends State<AnimatedAlignExample>
                       duration: aMillisecond * _duration,
                       child: Container(
                         color: Colors.blue,
-                        height: 150,
+                        height: 60,
                         width: 200,
                         child: Center(
                             child: Text(

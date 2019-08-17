@@ -228,6 +228,7 @@ class _StaggeredScreenState extends State<StaggeredScreen>
 
   @override
   Widget build(BuildContext context) {
+    bool onMobile = MediaQuery.of(context).size.shortestSide <= 640;
     return Scaffold(
       key: _scaffoldKey,
       backgroundColor: Colors.grey.shade300,
@@ -301,9 +302,11 @@ class _StaggeredScreenState extends State<StaggeredScreen>
               children: <Widget>[
                 AnimatedBuilder(
                   animation: animationController,
-                  builder: (context, widget) =>
-                      Padding(padding: _padding, child: _buildDurationRow()),
+                  builder: (context, widget) => Padding(
+                      padding: _padding, child: _buildDurationRow(onMobile)),
                 ),
+                if (onMobile)
+                  Slider(value: animationController.value, onChanged: null),
                 _buildTimelineItemField(
                     label: 'Position : Left',
                     value: currentLeft,
@@ -428,48 +431,42 @@ class _StaggeredScreenState extends State<StaggeredScreen>
     animationController.duration = Duration(milliseconds: msDuration);
   }
 
-  Widget _buildDurationRow() {
+  Widget _buildDurationRow(bool onMobile) {
     final progress = (animationController.value * 100).toInt();
     return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: <Widget>[
-        Expanded(
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: <Widget>[
-              DurationControl(
-                duration: animationController.duration.inMilliseconds,
-                onDurationChange: _onDurationChanged,
+        DurationControl(
+          duration: animationController.duration.inMilliseconds,
+          onDurationChange: _onDurationChanged,
+        ),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 8.0),
+          child: Container(
+            padding: const EdgeInsets.symmetric(horizontal: 8.0),
+            decoration: BoxDecoration(
+              color: Colors.cyan,
+              borderRadius: BorderRadius.circular(8),
+            ),
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Text(
+                '$progress %',
+                style: Theme.of(context)
+                    .textTheme
+                    .title
+                    .copyWith(color: Colors.white),
               ),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                child: Container(
-                  margin: const EdgeInsets.symmetric(vertical: 8.0),
-                  padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                  decoration: BoxDecoration(
-                    color: Colors.cyan,
-                    borderRadius: BorderRadius.circular(8),
-                  ),
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Text(
-                      '$progress %',
-                      style: Theme.of(context)
-                          .textTheme
-                          .title
-                          .copyWith(color: Colors.white),
-                    ),
-                  ),
-                ),
-              ),
-              Expanded(
-                child: Slider(
-                  value: animationController.value,
-                  onChanged: null,
-                ),
-              )
-            ],
+            ),
           ),
-        )
+        ),
+        if (!onMobile)
+          Expanded(
+            child: Slider(
+              value: animationController.value,
+              onChanged: null,
+            ),
+          )
       ],
     );
   }
