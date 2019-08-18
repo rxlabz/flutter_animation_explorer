@@ -306,12 +306,12 @@ void main() {
   ));
 }
 
-class TextExample extends StatefulWidget {
+class AnimatedOpacityExample extends StatefulWidget {
   @override
-  _AnimatedTextExampleState createState() => _AnimatedTextExampleState();
+  _AnimatedOpacityExampleState createState() => _AnimatedOpacityExampleState();
 }
 
-class _AnimatedTextExampleState extends State<TextExample>
+class _AnimatedOpacityExampleState extends State<AnimatedOpacityExample>
     with SingleTickerProviderStateMixin {
   final _durationMs = 600;
   final _curve = Curves.linear;
@@ -358,12 +358,12 @@ void main() {
   ));
 }
 
-class TextExample extends StatefulWidget {
+class StaggeredExample extends StatefulWidget {
   @override
-  _AnimatedTextExampleState createState() => _AnimatedTextExampleState();
+  _AnimatedTextExampleState createState() => _StaggeredExampleState();
 }
 
-class _AnimatedTextExampleState extends State<TextExample>
+class _StaggeredExampleState extends State<StaggeredExample>
     with SingleTickerProviderStateMixin {
   final _curve = Curves.bounceIn;
 
